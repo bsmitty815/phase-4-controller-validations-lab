@@ -1,5 +1,10 @@
 class PostsController < ApplicationController
 
+  # def index
+  #   post = Post.all
+  #   render json: post
+  # end
+
   def show
     post = Post.find(params[:id])
     
@@ -9,9 +14,17 @@ class PostsController < ApplicationController
   def update
     post = Post.find(params[:id])
 
-    post.update(post_params)
+    # if post
+      post.update(post_params)
 
-    render json: post
+      render json: post
+    # else
+    #   render json: { error: invalid.record.errors }, status: :unprocessable_entity 
+    # end
+   
+
+  rescue ActiveRecord::RecordInvalid => invalid
+    render json: { errors: invalid.record.errors }, status: :unprocessable_entity
   end
 
   private
